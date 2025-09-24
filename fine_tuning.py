@@ -72,7 +72,8 @@ def tokenizing(datapoint):
     }
 
 # Making the training and evaluation dataset
-hf_dataset = Dataset.from_dict(diff_dataset)
+rows = list(diff_dataset.values())
+hf_dataset = Dataset.from_list(rows)
 # Split 80/20 for training and validation
 dataset = hf_dataset.train_test_split(test_size=0.2, seed=42)
 
