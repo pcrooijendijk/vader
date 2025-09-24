@@ -47,7 +47,6 @@ try:
                         'diff' : diff,                  # The diff
                         'explanation' : dataset[digit]  # The explanation for this diff/vulnerability
                     }
-
 except FileNotFoundError:
     print(f"Directory not found: {diff_path}")
 
@@ -74,8 +73,11 @@ def tokenizing(datapoint):
 
 # Making the training and evaluation dataset
 hf_dataset = Dataset.from_dict(diff_dataset)
-train_ds = hf_dataset["train"].map(tokenizing)
-eval_ds = hf_dataset["validation"].map(tokenizing)
+# Split 80/20 for training and validation
+dataset = hf_dataset.train_test_split(test_size=-0.2, seed=42)
+
+train_ds = dataset["train"].map(tokenizing, remove_columns=dataset["train"].column_names)
+eval_ds = dataset["test"].map(tokenizing, remove_columns=dataset["test"].column_names)
 
 # Initialize the model for LoRA
 model = prepare_model_for_kbit_training(model)
