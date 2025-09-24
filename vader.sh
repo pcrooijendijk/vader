@@ -6,8 +6,8 @@
 #SBATCH --mem=15G
 #SBATCH --gres=gpu:1
 #SBATCH --time=2:00:00
-#SBATCH --output=FL-%j.out
-#SBATCH --error=FL-%j.err
+#SBATCH --output=vader.out
+#SBATCH --error=vader.err
 
 # Set environment variables for Hugging Face cache
 export HF_HOME="/vol/csedu-nobackup/project/prooijendijk/huggingface/cache"

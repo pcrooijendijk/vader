@@ -74,7 +74,7 @@ def tokenizing(datapoint):
 # Making the training and evaluation dataset
 hf_dataset = Dataset.from_dict(diff_dataset)
 # Split 80/20 for training and validation
-dataset = hf_dataset.train_test_split(test_size=-0.2, seed=42)
+dataset = hf_dataset.train_test_split(test_size=0.2, seed=42)
 
 train_ds = dataset["train"].map(tokenizing, remove_columns=dataset["train"].column_names)
 eval_ds = dataset["test"].map(tokenizing, remove_columns=dataset["test"].column_names)
