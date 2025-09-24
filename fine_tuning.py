@@ -12,7 +12,11 @@ import json
 
 # Loading the model and tokenizer
 tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-hf")
-model = AutoModelForCausalLM.from_pretrained("codellama/CodeLlama-7b-hf")
+model = AutoModelForCausalLM.from_pretrained(
+    "codellama/CodeLlama-7b-hf",
+    load_in_8bit=True,
+    device_map="auto",
+)
 
 vader_dataset = "vader_languages.csv"
 df = pd.read_csv(vader_dataset)
