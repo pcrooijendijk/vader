@@ -3,6 +3,8 @@
 
 # Load model directly
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling
+import evaluate
+import numpy as np
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from datasets import Dataset  
 import os
@@ -103,23 +105,42 @@ lora_config = LoraConfig(
 )
 model = get_peft_model(model, lora_config)
 
+# Function for showing evaluation
+accuracy = evaluate.load("accuracy")
+
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+
+    # Shift labels so -100 (masked labels) are ignored
+    predictions = np.argmax(logits, axis=-1)
+
+    # Mask out -100
+    mask = labels != -100
+    labels = labels[mask]
+    predictions = predictions[mask]
+
+    acc = accuracy.compute(predictions=predictions, references=labels)
+    return {"accuracy": acc["accuracy"]}
+
 # The training process
 tokenizer.pad_token = tokenizer.eos_token
 
 data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 
 training_args = TrainingArguments(
-    output_dir="codellama-explain-tuned",
+    output_dir="./results_fine_tuning",
     per_device_train_batch_size=1,    
     per_device_eval_batch_size=2,
     gradient_accumulation_steps=8,   
     num_train_epochs=3,
     learning_rate=2e-5,             
     weight_decay=0.01,
-    save_strategy="epoch",
-    evaluation_strategy="epoch",
+    save_strategy="steps",
+    save_steps=100,
+    evaluation_strategy="steps",
     logging_strategy="steps",
     logging_steps=100,
+    logging_dir="./logs",
     fp16=True,                    
     save_total_limit=2,
     load_best_model_at_end=True,
@@ -132,6 +153,7 @@ trainer = Trainer(
     eval_dataset=eval_ds,
     data_collator=data_collator,
     tokenizer=tokenizer,
+    compute_metrics=compute_metrics,
 )
 
 trainer.train()
