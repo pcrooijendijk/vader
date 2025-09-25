@@ -24,7 +24,7 @@ vader_dataset = "vader_languages.csv"
 df = pd.read_csv(vader_dataset)
 
 # Removing the following columns to only get the ID, CWE, severity score, explanation and programming language.
-df = df.drop(columns=['Unnamed: 0', 'Case', 'Repository', 'Submitted At', 'Approved At', 'num_files', 'num_languages'])
+df = df.drop(columns=['Unnamed: 0', 'Repository', 'Submitted At', 'Approved At', 'num_files', 'num_languages'])
 
 # Only get the samples which have a suggested fix in them
 df = df[df['Description'].str.contains("Suggested Fix", case=False)]
