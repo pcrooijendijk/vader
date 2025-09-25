@@ -70,8 +70,12 @@ def tokenizing(datapoint):
     input_ids = tokenized["input_ids"]
     attention_mask = tokenized["attention_mask"]
     
-    prompt_len = len(tokenizer(prompt)["input_ids"])
+    prompt_ids = tokenizer(prompt, truncation=True, max_length=1024)["input_ids"]
+    prompt_len = len(prompt_ids)
+
     labels = [-100] * prompt_len + input_ids[prompt_len:]
+    # Pad/truncate labels to match MAX_LEN
+    labels = labels[:1024] + [-100] * (1024 - len(labels))
     return {
         "input_ids": input_ids,
         "attention_mask": attention_mask,
