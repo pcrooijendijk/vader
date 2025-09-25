@@ -63,7 +63,7 @@ def tokenizing(datapoint):
     prompt = f"Patch:\n{datapoint['diff']}\n\n Explanation:\n{datapoint['explanation']}"
 
     # Tokenize the input and get the ids and attention mask
-    tokenized = tokenizer(prompt, truncation=True, max_length=2000)
+    tokenized = tokenizer(prompt, truncation=True, max_length=1024, padding="max_length")
     input_ids = tokenized["input_ids"]
     attention_mask = tokenized["attention_mask"]
     
