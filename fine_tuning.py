@@ -22,7 +22,7 @@ model = AutoModelForCausalLM.from_pretrained(
 tokenizer.pad_token = tokenizer.eos_token
 model.config.pad_token_id = model.config.eos_token_id
 
-vader_dataset = "vader2/vader_languages.csv"
+vader_dataset = "vader_languages.csv"
 df = pd.read_csv(vader_dataset)
 
 # Removing the following columns to only get the ID, CWE, severity score, explanation and programming language.
