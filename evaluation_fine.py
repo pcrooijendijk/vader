@@ -14,6 +14,9 @@ model = AutoModelForCausalLM.from_pretrained(
 
 model = PeftModel.from_pretrained(model, "./results_fine_tuning/checkpoint-39")
 
+tokenizer.pad_token = tokenizer.eos_token
+model.config.pad_token_id = tokenizer.eos_token_id
+
 # Writing the dataset to JSON file
 with open("diff_dataset.json", "r") as f:
     diff_dataset = json.load(f)
@@ -34,7 +37,7 @@ print(eval_ds[0])
 # Reload model with LoRA 
 pipe = pipeline(
     "text-generation",
-    model="./results_fine_tuning/checkpoint-39",  
+    model=model,  
     tokenizer=tokenizer,
     device_map="auto"
 )
