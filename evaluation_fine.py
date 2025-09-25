@@ -30,20 +30,16 @@ dataset = hf_dataset.train_test_split(test_size=0.2, seed=42)
 train_ds = dataset["train"]
 eval_ds = dataset["test"]
 
-# print(train_ds[0])
-print(eval_ds[0])
-
-
-# Reload model with LoRA 
-pipe = pipeline(
-    "text-generation",
-    model=model,  
-    tokenizer=tokenizer,
-    device_map="auto"
-)
-
 prompt = eval_ds[0]['diff']
 
-outputs = pipe(prompt, max_new_tokens=200, do_sample=True, temperature=0.7, top_p=0.9)
+inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 
-print(outputs[0]["generated_text"])
+outputs = model.generate(
+    **inputs,
+    max_new_tokens=200,
+    temperature=0.7,
+    top_p=0.9,
+    do_sample=True
+)
+
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
