@@ -1,8 +1,18 @@
 import json
 from datasets import Dataset  
 from transformers import pipeline, AutoTokenizer
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import PeftModel
 
-tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-hf")
+tokenizer = AutoTokenizer.from_pretrained("./results_fine_tuning/checkpoint-39")
+
+model = AutoModelForCausalLM.from_pretrained(
+    "codellama/CodeLlama-7b-hf",
+    device_map="auto",         # ensures real weights are loaded
+    load_in_4bit=True          # or load_in_8bit=True if that’s what you used
+)
+
+model = PeftModel.from_pretrained(model, "./results_fine_tuning/checkpoint-39")
 
 # Writing the dataset to JSON file
 with open("diff_dataset.json", "r") as f:
@@ -24,7 +34,7 @@ print(eval_ds[0])
 # Reload model with LoRA 
 pipe = pipeline(
     "text-generation",
-    model="./results_fine_tuning/checkpoint-39",  # path to your fine-tuned model
+    model="./results_fine_tuning/checkpoint-39",  
     tokenizer=tokenizer,
     device_map="auto"
 )
