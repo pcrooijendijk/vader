@@ -48,12 +48,12 @@ for root, _, files in os.walk(diff_path):
             case_id = int(match.group())
 
             # Find matching row (assuming your ID column contains these numbers)
-            row_match = df[df["ID"] == case_id]
+            row_match = df[df["Case"] == case_id]
             if not row_match.empty:
                 try:
                     with open(filepath, "r", encoding="utf-8") as f:
                         diff = f.read()
-                    df.loc[df["ID"] == case_id, "diff"] = diff
+                    df.loc[df["Case"] == case_id, "diff"] = diff
                 except Exception as e:
                     print(f"Error reading {filepath}: {e}")
 
