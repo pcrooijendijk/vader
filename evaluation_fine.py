@@ -31,6 +31,7 @@ train_ds = dataset["train"]
 eval_ds = dataset["test"]
 
 prompt = eval_ds[0]['diff']
+prompt += "\n Explanation:"
 
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 
