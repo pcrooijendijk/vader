@@ -18,6 +18,9 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto",
 )
 
+tokenizer.pad_token = tokenizer.eos_token
+model.config.pad_token_id = model.config.eos_token_id
+
 vader_dataset = "vader_languages.csv"
 df = pd.read_csv(vader_dataset)
 
