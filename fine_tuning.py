@@ -10,7 +10,6 @@ from datasets import Dataset
 import os
 import pandas as pd
 import re
-import json
 
 # Loading the model and tokenizer
 tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-hf")
@@ -23,72 +22,100 @@ model = AutoModelForCausalLM.from_pretrained(
 tokenizer.pad_token = tokenizer.eos_token
 model.config.pad_token_id = model.config.eos_token_id
 
-vader_dataset = "vader_languages.csv"
+vader_dataset = "vader2/vader_languages.csv"
 df = pd.read_csv(vader_dataset)
 
-# Get the description, and pre process the data points by getting only the entries with the suggested explanation template
-# List is structured as index, description
-dataset = {index: desc for index, desc in enumerate(df['Description']) if "Suggested Fix" in desc}
-indices = dataset.keys() # Get the case numbers
+# Removing the following columns to only get the ID, CWE, severity score, explanation and programming language.
+df = df.drop(columns=['Unnamed: 0', 'Case', 'Repository', 'Submitted At', 'Approved At', 'num_files', 'num_languages'])
 
-# Generate the prompt inputs where the diffs are attached
+# Only get the samples which have a suggested fix in them
+df = df[df['Description'].str.contains("Suggested Fix", case=False)]
+
+# Path to the patches/diffs
 diff_path = "./cases/"
-diff_dataset = {}
 
-try:
-    for root, directories, files in os.walk(diff_path):
-        for filename in files:
+# Add diff column initialized as empty
+df["diff"] = None
+
+# Loop through .patch files and add to df
+for root, _, files in os.walk(diff_path):
+    for filename in files:
+        if filename.endswith(".patch"):
             filepath = os.path.join(root, filename)
-            if filepath.endswith(".patch"):
-                # Search for the case number in the .patch file
-                digit = int(re.search(r'\d+', filepath).group())
 
-                # If the digit is found, then open the file and add the diff to the dataset
-                if digit in indices:
-                    try: 
-                        with open(filepath, "r", encoding="utf-8") as f:
-                            diff = f.read()
-                    except Exception as e:
-                        print(f"Error reading file: {str(e)}")
-                        continue
+            # Extract the first number from filename (case ID or index)
+            match = re.search(r'\d+', filename)
+            if not match:
+                continue
+            case_id = int(match.group())
 
-                    diff_dataset[str(digit)] = {
-                        'diff' : diff,                  # The diff
-                        'explanation' : dataset[digit]  # The explanation for this diff/vulnerability
-                    }
-except FileNotFoundError:
-    print(f"Directory not found: {diff_path}")
+            # Find matching row (assuming your ID column contains these numbers)
+            row_match = df[df["ID"] == case_id]
+            if not row_match.empty:
+                try:
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        diff = f.read()
+                    df.loc[df["ID"] == case_id, "diff"] = diff
+                except Exception as e:
+                    print(f"Error reading {filepath}: {e}")
 
-# Writing the dataset to JSON file
-with open("diff_dataset.json", "w") as f:
-    json.dump(diff_dataset, f, indent=4)
+# Build dataset with prompt + explanation
+def build_prompt(row):
+    return f"""Patch:
+{row['diff']}
 
+Metadata:
+CWE: {row['CWE']}
+Severity: {row['Severity']}
+Language: {row['language']}
+
+### Explanation:
+"""
+
+dataset = Dataset.from_pandas(df)
+
+dataset = dataset.map(lambda row: {
+    "prompt": build_prompt(row),
+    "label": row["Description"]
+})
+
+# Removing this redundant column __index_level_0__
+dataset = dataset.remove_columns("__index_level_0__")
+
+MAX_LENGTH = 1024 
 # Function for tokenizing the input
-def tokenizing(datapoint):
-    prompt = f"Patch:\n{datapoint['diff']}\n\n Explanation:\n{datapoint['explanation']}"
-
-    # Tokenize the input and get the ids and attention mask
-    tokenized = tokenizer(prompt, truncation=True, max_length=1024, padding="max_length")
-    input_ids = tokenized["input_ids"]
-    attention_mask = tokenized["attention_mask"]
+def tokenizing(sample):
+    prompt = sample["prompt"]
+    label = sample["label"]
     
-    prompt_ids = tokenizer(prompt, truncation=True, max_length=1024)["input_ids"]
-    prompt_len = len(prompt_ids)
+    full_text = prompt + label
 
-    labels = [-100] * prompt_len + input_ids[prompt_len:]
-    # Pad/truncate labels to match MAX_LEN
-    labels = labels[:1024] + [-100] * (1024 - len(labels))
+    # Tokenize full text
+    tokenized = tokenizer(
+        full_text,
+        truncation=True,
+        padding="max_length",
+        max_length=MAX_LENGTH,
+    )
+
+    # Tokenize prompt only (to mask)
+    prompt_ids = tokenizer(
+        prompt,
+        truncation=True,
+        max_length=MAX_LENGTH
+    )["input_ids"]
+
+    labels = [-100] * len(prompt_ids) + tokenized["input_ids"][len(prompt_ids):]
+    labels = labels[:MAX_LENGTH] + [-100] * (MAX_LENGTH - len(labels))
+
     return {
-        "input_ids": input_ids,
-        "attention_mask": attention_mask,
+        "input_ids": tokenized["input_ids"],
+        "attention_mask": tokenized["attention_mask"],
         "labels": labels
     }
 
-# Making the training and evaluation dataset
-rows = list(diff_dataset.values())
-hf_dataset = Dataset.from_list(rows)
 # Split 80/20 for training and validation
-dataset = hf_dataset.train_test_split(test_size=0.2, seed=42)
+dataset = dataset.train_test_split(test_size=0.2, seed=42)
 
 train_ds = dataset["train"].map(tokenizing, remove_columns=dataset["train"].column_names)
 eval_ds = dataset["test"].map(tokenizing, remove_columns=dataset["test"].column_names)
