@@ -117,7 +117,7 @@ def tokenizing(sample):
 dataset = dataset.train_test_split(test_size=0.2, seed=42)
 prompt_dict = {}
 
-for index, datasample in enumerate(dataset["test"]):
+for index, datasample in enumerate(dataset["test"][:10]):
     inputs = tokenizer(datasample["prompt"], return_tensors="pt").to(model.device)
 
     outputs = model.generate(
