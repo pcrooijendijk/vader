@@ -1,5 +1,6 @@
 import os
 import re
+import json
 from datasets import Dataset  
 from transformers import AutoTokenizer
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -114,18 +115,23 @@ def tokenizing(sample):
 
 # Split 80/20 for training and validation
 dataset = dataset.train_test_split(test_size=0.2, seed=42)
+prompt_dict = {}
 
-datasample = dataset["test"][0]
-inputs = tokenizer(datasample["prompt"], return_tensors="pt").to(model.device)
+for index, datasample in enumerate(dataset["test"]):
+    inputs = tokenizer(datasample["prompt"], return_tensors="pt").to(model.device)
 
-outputs = model.generate(
-    **inputs,
-    max_new_tokens=200,
-    temperature=0.7,
-    top_p=0.9,
-    do_sample=True
-)
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=200,
+        temperature=0.7,
+        top_p=0.9,
+        do_sample=True
+    )
+    prompt_dict[index] = {
+        "prompt": datasample["prompt"],
+        "expected_answer": datasample["label"],
+        "generated_answer": tokenizer.decode(outputs[0], skip_special_tokens=True),
+    }
 
-print("PROMPT:\n", datasample["prompt"])
-print("\nEXPECTED:\n", datasample["label"])
-print("\nGENERATED:\n", tokenizer.decode(outputs[0], skip_special_tokens=True))
+with open("results.json", "w") as f: 
+    json.dump(prompt_dict, f, indent=4)
