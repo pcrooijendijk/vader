@@ -15,12 +15,26 @@ Language: javascript
 
 ### Explanation:
 
-Amazon is transitioning their site to HTTPS only. If you use the HTTPS version of their site, your script will not work.
+The URL for the Amazon URL is hardcoded, and can be changed by the attacker.
 
-### Solution:
-
-Update the URL to use HTTPS.
 
 ### References:
 
-- https://www.amazon.com/gp/help/customer/display.html?nodeId=201640200
+- https://cwe.mitre.org/data/definitions/522.html
+- https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+
+### Impact:
+
+The attacker could potentially use this vulnerability to redirect the user to a malicious website.
+
+### Exploit:
+
+```javascript
+function checkLogin(username, password) {
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", URL + username, true);
+	xhttp.send();
+	if (xhttp.status === 200) {
+		var login = document.getElementById("login");
+		login.style.display = "none";
+		document.getElementById("main").

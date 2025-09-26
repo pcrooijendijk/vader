@@ -42,49 +42,30 @@ Severity: Low
 Language: python, javascript
 
 ### Explanation:
-AES-256-GCM is a modern encryption algorithm that is widely used. AES-256-GCM uses a 128-bit block size and a 128-bit key, but it uses the same key size as AES-256. It is a stronger encryption algorithm than AES-512.
+
+This is an example of a CWE-916 vulnerability.
+
+This code can be used to decrypt data that has been encrypted with the same key.
 
 ### Resolution:
-In this case, the application should be updated to use AES-256-GCM.
+
+Use an authenticated encryption mode like AES-GCM instead of the standard CBC mode.
 
 ### References:
-* [AES-256-GCM - Crypto.stackexchange](https://crypto.stackexchange.com/questions/39799/why-is-aes-256-gcm-considered-stronger-than-aes-512-cbc)
 
-### Patched Versions:
-0.0.0
+https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation
 
-### References:
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15473)
-* [CVE-2018-15473](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-1547
+### Code:
+
+Buggy code:
+
+```
+def decryptData(encryptedData, key, iv):
+    decipher = AES.new(key, AES.MODE_CBC, iv)
+    decrypted = decipher.decrypt(encryptedData)
+    return decrypted
+
+
+def encryptData(data, key):
+    iv = Crypto.Random.new().read(AES.block_size)
+   

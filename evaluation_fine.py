@@ -1,3 +1,5 @@
+# Loading the PEFT model and then also use it for evaluation: generating answers.
+
 import os
 import re
 import json
@@ -13,8 +15,8 @@ tokenizer = AutoTokenizer.from_pretrained("./results_fine_tuning/checkpoint-42")
 
 model = AutoModelForCausalLM.from_pretrained(
     "codellama/CodeLlama-7b-hf",
-    device_map="auto",         # ensures real weights are loaded
-    load_in_4bit=True          # or load_in_8bit=True if that’s what you used
+    device_map="auto",        
+    load_in_4bit=True          
 )
 
 model = PeftModel.from_pretrained(model, "./results_fine_tuning/checkpoint-42")
@@ -124,7 +126,7 @@ try:
 
         outputs = model.generate(
             **inputs,
-            max_new_tokens=200,
+            max_new_tokens=500,
             temperature=0.7,
             top_p=0.9,
             do_sample=True
@@ -138,5 +140,6 @@ except torch.OutOfMemoryError as e:
     print(e)
     pass
 
+# Getting the results in a JSON file
 with open("results.json", "w") as f: 
     json.dump(prompt_dict, f, indent=4)
