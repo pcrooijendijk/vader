@@ -63,16 +63,44 @@ Language: javascript
 
 ### Explanation:
 
-When you create a new socket.io server, you must pass an http server as a parameter to the socket.io constructor. This http server will be used to create the underlying websocket connection. If you don't pass an http server as a parameter to the socket.io constructor, then socket.io will create its own http server.
+The web application is exposing a CSRF vulnerability. The application is accepting POST requests from the user without verifying the token, and is therefore allowing forged requests to be made.
 
-In the example above, the socket.io constructor is passed a reference to an http server. This http server is the server on which the client and server communicate.
+### Remediation:
 
-However, in the example above, the http server is created by the `http.createServer()` method. This http server is not passed to the socket.io constructor.
+To remediate this issue, the application should verify the CSRF token and reject forged requests.
 
-### Possible Mitigations:
-
-Instead of calling the `http.createServer()` method, pass the http server as a parameter to the socket.io constructor.
 
 ### References:
 
-https://www.npmjs.com/package/
+- [OWASP CSRF](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF))
+- [Understanding CSRF](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet)
+- [OWASP CSRF Cheat Sheet](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet)
+
+
+### 3.0.1 (2021-02-27)
+
+#### Summary:
+
+This patch updates the application to protect against a XSS vulnerability.
+
+#### Details:
+
+Patch:
+diff --git a/client/src/server.js b/client/src/server.js
+index 074321c..b680552 100644
+--- a/client/src/server.js
++++ b/client/src/server.js
+@@ -31,7 +31,11 @@ const app = express();
+ app.use(cors());
+ app.use(cookieParser());
+ app.use(express.urlencoded({ extended: true }));
+-app.use(csurf());
++app.use(csurf({ cookie: true }));
++
++// Middleware para obtener y enviar el token CSRF
++app.get('/csrf-token', (req, res) => {
++  res.json({ csrfToken: req.csrfToken() });
++});
++
+ app.get('/', (req, res) => {
+   res.sendFile(__dirname + '/index.html');

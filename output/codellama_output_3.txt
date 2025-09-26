@@ -15,26 +15,23 @@ Language: javascript
 
 ### Explanation:
 
-The URL for the Amazon URL is hardcoded, and can be changed by the attacker.
+Amazon URL should be https://www.amazon.com/dp/
 
+### Rule:
+
+Amazon URLs should be accessed through HTTPS.
+
+### Code:
+
+```js
+const URL = 'https://www.amazon.com/dp/';
+```
 
 ### References:
 
-- https://cwe.mitre.org/data/definitions/522.html
-- https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
-
-### Impact:
-
-The attacker could potentially use this vulnerability to redirect the user to a malicious website.
-
-### Exploit:
-
-```javascript
-function checkLogin(username, password) {
-	var xhttp = new XMLHttpRequest();
-	xhttp.open("GET", URL + username, true);
-	xhttp.send();
-	if (xhttp.status === 200) {
-		var login = document.getElementById("login");
-		login.style.display = "none";
-		document.getElementById("main").
+- https://www.owasp.org/index.php/Top_10_2013-A3-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A1-Injection
+- https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Functionalities
+- https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Direct_Object_References
+- https://www.owasp.org/index.php/Top_10-2017_A5-Security_Misconfiguration
+- https://www.owasp.org/index.php/Top_10-2017_A6-Sensitive_State_

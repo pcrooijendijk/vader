@@ -24,29 +24,46 @@ Language: go
 
 ### Explanation:
 
-The function `readfile()` is used to read a file from disk and output it to the HTTP response body.
+This Go source file downloads a file from disk without checking the name of the file to ensure that it is within a known directory.
 
-This function does not check the path of the file, and will read any file with read permissions.
+### More Info:
 
-### Impact:
+- [https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMMITSUITE-566258](https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMMITSUITE-566258)
 
-The function can be used to read any file on the server.
+### POC:
 
-### Resolution:
+- [https://hackerone.com/reports/731395](https://hackerone.com/reports/731395)
 
-Avoid using the `readfile()` function.
+### Recommendation:
 
-### Related resources:
+- Ensure that the file name is sanitized before passing it to `readfile()`.
 
-- [https://www.php.net/manual/en/function.readfile.php](https://www.php.net/manual/en/function.readfile.php)
+### In-code reference:
 
-### Code snippet
+- [https://github.com/github/git-lfs/blob/master/lfs/commands/serve/serve.go#L383](https://github.com/github/git-lfs/blob/master/lfs/commands/serve/serve.go#L383)
 
-```go
-// Avoid using the readfile() function
-// https://www.php.net/manual/en/function.readfile.php
-```
+### Fixed in version:
+
+- [https://github.com/github/git-lfs/pull/1552](https://github.com/github/git-lfs/pull/1552)
 
 ### References:
 
-- [https://www.owasp.org/index.
+- [https://github.com/github/git-lfs/issues/1549](https://github.com/github/git-lfs/issues/1549)
+
+### CWE: CWE-78
+
+### Severity: High
+
+### Language: php
+
+### Vendor: mozilla
+
+### Product: firefox
+
+### Version: 52.0.2
+
+### Additional information:
+
+- [https://bugzilla.mozilla.org/show_bug.cgi?id=1319396](https://bugzilla.mozilla.org/show_bug.cgi?id=1319396)
+
+### Recommendation:

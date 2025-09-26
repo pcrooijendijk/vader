@@ -17,30 +17,70 @@ Language: javascript, html
 
 ### Explanation:
 
-The application loads the following file as a model:
+JavaScript code is not sanitized before being printed to HTML. An attacker can inject malicious JavaScript code into the
+page, which will be executed when the victim loads the page.
 
-```
-state_dict_path = os.path.join(args.repo_path, subfolder, "diffusion_pytorch_model.bin")
-```
+### Mitigation:
 
-However, the file is loaded as a state_dict, which is only part of the model:
+Sanitize user input before printing to HTML.
 
-```
-model.load_state_dict(state_dict)
-```
+### Reference:
 
-The entire model object is not loaded, so the application will not be able to use the model object.
+https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
 
-### Solution:
+### Other information:
 
-Ensure the entire model object is loaded from the file:
+This is a great example of how to exploit a vulnerability to inject malicious JavaScript code into an HTML page.
 
-```
-model = ...
-state_dict = torch.load(state_dict_path, map_location="cpu")
-model.load_state_dict(state_dict)
-```
+### Proof of Concept:
 
-### References:
+Patch:
+if (req.query.name) {
+  const name = sanitize(req.query.name);
+  res.send(`Hello ${name}!`);
+} else {
+  res.send("Hello world!");
+}
 
-* [https://github.com/openai/improved
+Safe:
+if (req.query.name) {
+  const name = sanitize(req.query.name);
+  res.send(`Hello ${name}!`);
+} else {
+  res.send("Hello world!");
+}
+
+Metadata:
+CWE: CWE-78
+Severity: High
+Language: python, html
+
+### Explanation:
+
+The attacker is able to include malicious JavaScript code in the HTML response because the vulnerable code is not sanitizing
+the user input before printing it to the HTML page.
+
+### Mitigation:
+
+Sanitize user input before printing to HTML.
+
+### Reference:
+
+https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+
+### Other information:
+
+This is a great example of how to exploit a vulnerability to inject malicious JavaScript code into an HTML page.
+
+### Proof of Concept:
+
+Patch:
+if (req.query.name) {
+  const name = sanitize(req.query.name);
+  res.send(`Hello ${name}!`);
+} else {
+  res.send("Hello world!");
+}
+
+Safe:
+if

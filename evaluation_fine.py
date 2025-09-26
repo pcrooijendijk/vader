@@ -71,7 +71,15 @@ CWE: {row['CWE']}
 Severity: {row['Severity']}
 Language: {row['language']}
 
+Given the above patch and metadata, give an explanation based on the following template:
 ### Explanation:
+Vulnerability Type: 
+Severity:  
+Root Cause:  
+Exploit Scenario:  
+Why It Happens:  
+Security Implications:  
+Suggested Fix:  
 """
 
 dataset = Dataset.from_pandas(df)

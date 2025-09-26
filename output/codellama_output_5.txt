@@ -56,25 +56,54 @@ Language: python
 
 ### Explanation:
 
-This code path is vulnerable to SQL Injection.
+This code does not check if the string is an integer before converting it to int.
 
+### Recommendation:
 
-### More Info:
+Add a check to ensure that the input is an integer before converting it to int.
 
-This is a great example of a SQL injection vulnerability.
+### File: saas/api/server/api/private.ts
 
-The `get_user_by_slug` function is vulnerable to SQL Injection because the `slug` parameter is used in a SQL query without any sanitization.
+Patch:
+diff --git a/saas/api/server/api/private.ts b/saas/api/server/api/private.ts
+index 706094c..b135f0b 100644
+--- a/saas/api/server/api/private.ts
++++ b/saas/api/server/api/private.ts
+@@
+ import * as express from 'express';
++import { body, validationResult } from 'express-validator';
 
-If the `slug` parameter is set to the value `';DROP TABLE users;`, the SQL query will be `SELECT * FROM users WHERE slug = '';DROP TABLE users;'`.
+ const router = express.Router();
 
-This will drop the `users` table and all data in it.
-
-
-### Attack:
-
-```
-curl --request POST \
-  --url http://localhost:3000/get-user-by-slug \
-  --header 'content-type: application/json' \
-  --data '{
-	"slug": "';DROP TABLE users
+ router.post(
+-  '/add-comment',
+-  async (req, res, next) => {
+-    console.log('Express route: /add-comment');
+-
+-    try {
+-      const { comment, storyId } = req.body;
+-
+-      const commentId = await Comment.addComment({ comment, storyId });
+-
+-      res.json({ commentId });
+-    } catch (err) {
+-      next(err);
+-    }
+-  }
++  '/add-comment',
++  [
++    body('comment')
++      .isString()
++      .isLength({ min: 1, max: 1000 })
++      .withMessage('Invalid comment format.'),
++    body('storyId')
++      .isString()
++      .isLength({ min: 1, max: 100 })
++      .matches(/^[a-zA-Z0-9-_]+$/)
++      .withMessage('Invalid story ID format.'),
++  ],
++  async (req, res, next) => {
++    console.log('Express route: /add-comment');
++    const errors = validationResult(req);
++    if (!errors.isEmpty()) {
++      return res.

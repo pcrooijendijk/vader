@@ -43,29 +43,37 @@ Language: python, javascript
 
 ### Explanation:
 
-This is an example of a CWE-916 vulnerability.
+This issue affects the following functions:
+- `encryptData`
+- `decryptData`
 
-This code can be used to decrypt data that has been encrypted with the same key.
-
-### Resolution:
-
-Use an authenticated encryption mode like AES-GCM instead of the standard CBC mode.
-
-### References:
-
-https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation
-
-### Code:
-
-Buggy code:
+The vulnerable code is the following:
 
 ```
-def decryptData(encryptedData, key, iv):
-    decipher = AES.new(key, AES.MODE_CBC, iv)
-    decrypted = decipher.decrypt(encryptedData)
-    return decrypted
+// Function to encrypt data using AES-512
+const encryptData = (data, key) => {
+    const iv = crypto.randomBytes(16); // Generate a random initialization vector
+    const cipher = crypto.createCipheriv('aes-512-cbc', Buffer.from(key, 'hex'), iv); // Create a cipher
+    let encrypted = cipher.update(data, 'utf8', 'hex'); // Encrypt the data
+    encrypted += cipher.final('hex'); // Finalize the encryption
+    return { iv: iv.toString('hex'), encryptedData: encrypted }; // Return the IV and encrypted data
+};
 
+// Function to decrypt data using AES-512
+const decryptData = (encryptedData, key, iv) => {
+    const decipher = crypto.createDecipheriv('aes-512-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex')); // Create a decipher
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8'); // Decrypt the data
+    decrypted += decipher.final('utf8'); // Finalize the decryption
+    return decrypted; // Return the decrypted data
+};
+```
 
-def encryptData(data, key):
-    iv = Crypto.Random.new().read(AES.block_size)
-   
+The vulnerability is that the AES-512-CBC encryption uses the same IV for every encryption. An attacker can observe the IVs and encrypt a message that will be indistinguishable from the message that is already encrypted.
+
+The vulnerable code can be fixed as follows:
+
+```
+// Function to encrypt data using AES-256-GCM (authenticated encryption)
+const encryptData = (data, key) => {
+    const iv = crypto.randomBytes(12); // GCM standard IV size is 12 bytes
+    const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(key, 'hex'), iv); // AES-2

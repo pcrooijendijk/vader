@@ -126,29 +126,31 @@ Severity: High
 Language: python
 
 ### Explanation:
-
-The program fetches movie data from Firestore and renders them on the screen.
-
-If an attacker is able to change the url of a movie, the attacker can change the image that is being displayed.
-
-This means that the attacker is able to change the content of the page, without the page's owner being able to notice.
+The vulnerability is due to the fact that the function sanitizeId() is not being used anywhere in the code. This means that any input can be given to the function, and it will always return true.
 
 ### Remediation:
-
-Ensure that the `url` field only accepts a valid url.
-
-
-### 💫 Solution
-
-#### 1. Validate the url
-
-The first thing to do is to make sure that the url field only accepts a valid url.
-
-Since the `url` field is a string, we can use a regex to check if the value is a valid url.
+To fix this issue, we need to use the sanitizeId() function. The function is currently used in the following line of code:
 
 ```
-import re
+navigate(`/movies/${item.id}`);
+```
 
-def is_valid_url(url):
-    regex = re.compile(
-        r"^https
+This means that the user can pass any value to the navigate() function, and the value will be used as the id of the movie. This means that the user can navigate to any movie page, which is a security risk.
+
+The fix is to add the following line of code to the navigate() function:
+
+```
+if (sanitizeId(item.id)) {
+  navigate(`/movies/${item.id}`);
+}
+```
+
+This will prevent the user from passing any value to the navigate() function. Only valid movie ids will be accepted, and the user will not be able to navigate to any movie page.
+
+### References:
+https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Design
+https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Design#Example_1_Insecure_Direct_Object_References
+https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control
+https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control#Example_1_Insufficient_Access_Controls_for_Resource_Handling
+https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control#Example_1_Insufficient_Access_Controls_for_Resource_Handling
+https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control#Example_2_

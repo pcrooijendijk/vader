@@ -22,14 +22,29 @@ Severity: Low
 Language: javascript, c
 
 ### Explanation:
+This is a low severity vulnerability that is a result of the use of a non-validated input in the code. This is a low severity vulnerability as the vulnerability is not exploitable in a production environment. This vulnerability is exploitable in a local environment.
 
-A user can pass an email address as part of the query string to this API. The email address is then lowercased before it is used to create a passcode. The email address is then used in a SQL query to check if the email address is in the database. If the email address is not found, an error is returned. This is a SQL injection vulnerability because the user can control the email address passed to the API.
+### Impact:
+A local attacker can use this vulnerability to trick a user into providing their email address. The user will then receive an email with a malicious link. This attacker can then trick the user into clicking the malicious link and running the code on their machine.
 
-### Recommended Fix:
-
-Do not pass the email address to the SQL query.
+### Remediation:
+This vulnerability is a result of the use of a non-validated input in the code. This vulnerability can be fixed by validating the input.
 
 ### References:
+* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
+* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
 
-- [CWE-119](https://cwe.mitre.org/data/definitions/119.html)
-- [OWASP Top 10 2021 Category A3](https://owasp.org/www-project-top-ten/2021/a3-broken-access-control/)
+### References:
+* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
+* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
+
+### References:
+* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
+* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
+
+### References:
+* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
+* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
+
+### References:
+* https://www

@@ -88,24 +88,74 @@ Severity: High
 Language: python
 
 ### Explanation:
-The program is listening on the socket. It waits for a connection request from the client.
 
-The client sends the data to the socket.
-
-The socket then reads the file and sends it back to the client.
+The server does not use an SSL context to wrap the socket, and as a result, it is vulnerable to man-in-the-middle attacks.
 
 ### Impact:
-The data is being read from the file and then sent to the client. The client has the ability to access the file.
 
-### Solution:
+An attacker can intercept the connection and steal data.
 
-The file should be read and sent only if the connection is authenticated.
+### Resolution:
 
-### Steps to mitigate:
+The server should use an SSL context to wrap the socket.
 
-1. Include a check for authentication before reading the file and sending it to the client.
-2. Send the file over an encrypted connection.
+### Internal Notes:
+
+N/A
 
 ### References:
 
-1. [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Application%20Layer%20-%20Protocols/HTTP%20Server](https://
+* https://docs.python.org/3/library/ssl.html#ssl.SSLContext
+* https://docs.python.org/3/library/ssl.html#ssl.SSLContext.wrap_socket
+* https://docs.python.org/3/library/ssl.html#ssl.SSLContext.load_cert_chain
+
+
+### CWE: CWE-22
+
+### Severity: High
+
+### Description:
+
+The server uses a non-SSL socket to communicate with the client. This means that any data exchanged between the client and server is vulnerable to man-in-the-middle attacks.
+
+### Impact:
+
+An attacker can intercept the connection and steal data.
+
+### Resolution:
+
+The server should use an SSL socket to communicate with the client.
+
+### Internal Notes:
+
+N/A
+
+### References:
+
+* https://docs.python.org/3/library/socket.html#socket.socket
+* https://docs.python.org/3/library/ssl.html#ssl.wrap_socket
+* https://docs.python.org/3/library/ssl.html#ssl.SSLContext
+
+
+### CWE: CWE-22
+
+### Severity: High
+
+### Description:
+
+The server does not use a secure socket to communicate with the client. This means that any data exchanged between the client and server is vulnerable to man-in-the-middle attacks.
+
+### Impact:
+
+An attacker can intercept the connection and steal data.
+
+### Resolution:
+
+The server should use a secure socket to communicate with the client.
+
+### Internal Notes:
+
+N/A
+
+### References:
+
