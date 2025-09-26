@@ -6,6 +6,7 @@ from transformers import AutoTokenizer
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 import pandas as pd
+import torch
 
 # Loading the tokenizer and PEFT model
 tokenizer = AutoTokenizer.from_pretrained("./results_fine_tuning/checkpoint-42")
@@ -117,21 +118,25 @@ def tokenizing(sample):
 dataset = dataset.train_test_split(test_size=0.2, seed=42)
 prompt_dict = {}
 
-for index, datasample in enumerate(dataset["test"][:10]):
-    inputs = tokenizer(datasample["prompt"], return_tensors="pt").to(model.device)
+try:
+    for index, datasample in enumerate(dataset["test"]):
+        inputs = tokenizer(datasample["prompt"], return_tensors="pt").to(model.device)
 
-    outputs = model.generate(
-        **inputs,
-        max_new_tokens=200,
-        temperature=0.7,
-        top_p=0.9,
-        do_sample=True
-    )
-    prompt_dict[index] = {
-        "prompt": datasample["prompt"],
-        "expected_answer": datasample["label"],
-        "generated_answer": tokenizer.decode(outputs[0], skip_special_tokens=True),
-    }
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=200,
+            temperature=0.7,
+            top_p=0.9,
+            do_sample=True
+        )
+        prompt_dict[index] = {
+            "prompt": datasample["prompt"],
+            "expected_answer": datasample["label"],
+            "generated_answer": tokenizer.decode(outputs[0], skip_special_tokens=True),
+        }
+except torch.OutOfMemoryError as e: 
+    print(e)
+    pass
 
 with open("results.json", "w") as f: 
     json.dump(prompt_dict, f, indent=4)
