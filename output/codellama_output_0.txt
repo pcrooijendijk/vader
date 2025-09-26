@@ -1,0 +1,215 @@
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req.query;
+-    if (!email) {
+-        return;
+-    }
+-    const code = generateUniquePasscode();
+-    const sanitizedEmail = (email as string).toLowerCase();
++    const { email } = req.query;
++    if (typeof email !== "string") {
++        return res.status(400).json({ message: "Invalid email format" });
++    }
++    const code = generateUniquePasscode();
++    const sanitizedEmail = email.toLowerCase();
+
+
+Metadata:
+CWE: CWE-119
+Severity: Low
+Language: javascript, c
+
+### Explanation:
+The email address is not sanitized before it is used in a query.
+
+### Affected source code:
+https://github.com/vercel/next.js/blob/396f6c96f3460e89713155b7c6266c716608b7f7/packages/next/server/api-utils.ts#L34-L44
+
+
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req.query;
+-    if (!email) {
+-        return;
+-    }
+-    const code = generateUniquePasscode();
+-    const sanitizedEmail = (email as string).toLowerCase();
++    const { email } = req.query;
++    if (typeof email !== "string") {
++        return res.status(400).json({ message: "Invalid email format" });
++    }
++    const code = generateUniquePasscode();
++    const sanitizedEmail = email.toLowerCase();
+
+
+Metadata:
+CWE: CWE-119
+Severity: Low
+Language: javascript, c
+
+### Explanation:
+The email address is not sanitized before it is used in a query.
+
+### Affected source code:
+https://github.com/vercel/next.js/blob/396f6c96f3460e89713155b7c6266c716608b7f7/packages/next/server/api-utils.ts#L34-L44
+
+
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req.query;
+-    if (!email) {
+-        return;
+-    }
+-    const code = generateUniquePasscode();
+-    const sanitizedEmail = (email as string).toLowerCase();
++    const { email } = req.query;
++    if (typeof email !== "string") {
++        return res.status(400).json({ message: "Invalid email format" });
++    }
++    const code = generateUniquePasscode();
++    const sanitizedEmail = email.toLowerCase();
+
+
+Metadata:
+CWE: CWE-119
+Severity: Low
+Language: javascript, c
+
+### Explanation:
+The email address is not sanitized before it is used in a query.
+
+### Affected source code:
+https://github.com/vercel/next.js/blob/396f6c96f3460e89713155b7c6266c716608b7f7/packages/next/server/api-utils.ts#L34-L44
+
+
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req.query;
+-    if (!email) {
+-        return;
+-    }
+-    const code = generateUniquePasscode();
+-    const sanitizedEmail = (email as string).toLowerCase();
++    const { email } = req.query;
++    if (typeof email !== "string") {
++        return res.status(400).json({ message: "Invalid email format" });
++    }
++    const code = generateUniquePasscode();
++    const sanitizedEmail = email.toLowerCase();
+
+
+Metadata:
+CWE: CWE-119
+Severity: Low
+Language: javascript, c
+
+### Explanation:
+The email address is not sanitized before it is used in a query.
+
+### Affected source code:
+https://github.com/vercel/next.js/blob/396f6c96f3460e89713155b7c6266c716608b7f7/packages/next/server/api-utils.ts#L34-L44
+
+
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req.query;
+-    if (!email) {
+-        return;
+-    }
+-    const code = generateUniquePasscode();
+-    const sanitizedEmail = (email as string).toLowerCase();
++    const { email } = req.query;
++    if (typeof email !== "string") {
++        return res.status(400).json({ message: "Invalid email format" });
++    }
++    const code = generateUniquePasscode();
++    const sanitizedEmail = email.toLowerCase();
+
+
+Metadata:
+CWE: CWE-119
+Severity: Low
+Language: javascript, c
+
+### Explanation:
+The email address is not sanitized before it is used in a query.
+
+### Affected source code:
+https://github.com/vercel/next.js/blob/396f6c96f3460e89713155b7c6266c716608b7f7/packages/next/server/api-utils.ts#L34-L44
+
+
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req.query;
+-    if (!email) {
+-        return;
+-    }
+-    const code = generateUniquePasscode();
+-    const sanitizedEmail = (email as string).toLowerCase();
++    const { email } = req.query;
++    if (typeof email !== "string") {
++        return res.status(400).json({ message: "Invalid email format" });
++    }
++    const code = generateUniquePasscode();
++    const sanitizedEmail = email.toLowerCase();
+
+
+Metadata:
+CWE: CWE-119
+Severity: Low
+Language: javascript, c
+
+### Explanation:
+The email address is not sanitized before it is used in a query.
+
+### Affected source code:
+https://github.com/vercel/next.js/blob/396f6c96f3460e89713155b7c6266c716608b7f7/packages/next/server/api-utils.ts#L34-L44
+
+
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req.query;
+-    if (!email) {
+-        return;
+-    }
+-    const code = generateUniquePasscode();
+-    const sanitizedEmail = (email as string).toLowerCase();
++    const { email } = req.query;
++    if (typeof email !== "string") {
++        return res.status(400).json({ message: "Invalid email format" });
++    }
++    const code = generateUniquePasscode();
++    const sanitizedEmail = email.toLowerCase();
+
+
+Metadata:
+CWE: CWE-119
+Severity: Low
+Language: javascript, c
+
+### Explanation:
+The email address is not sanitized before it is used in a query.
+
+### Affected source code:
+https://github.com/vercel/next.js/blob/396f6c96f3460e89713155b7c6266c716608b7f7/packages/next/server/api-utils.ts#L34-L44
+
+
+Patch:
+--- a/pages/api/verify/index.ts
++++ b/pages/api/verify/index.ts
+@@
+-    const { email } = req

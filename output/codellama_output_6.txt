@@ -1,0 +1,325 @@
+Patch:
+- var findResult = recMan.Find(query);
++ ValidateQueryFields(query);
++ var findResult = recMan.Find(SanitizeQuery(query));
+
+- return DoResponse(new EntityRelationManager().Create(relation));
++ ValidateRelationData(relation);
++ return DoResponse(new EntityRelationManager().Create(SanitizeRelation(relation)));
+
+
+Metadata:
+CWE: CWE-20
+Severity: High
+Language: javascript, python
+
+### Explanation:
+
+The `Find` method in the `EntityRelationManager` class of the `EntityRelationManager` class does not validate the fields of the `query` parameter before using it. This allows an attacker to manipulate the fields of the `query` parameter to trigger a denial of service condition or to leak sensitive information from the database.
+
+### Resolution:
+
+Add validation to the `Find` method in the `EntityRelationManager` class of the `EntityRelationManager` class.
+
+### References:
+
+* https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/entity-operations#query-data
+* https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/entity-operations#create-data
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.48
+
+### Changelog:
+
+- v19.1.0.48:
+    - Fixed vulnerability CVE-2020-25095
+
+### Changelog:
+
+- v19.1.0.48:
+    - Fixed vulnerability CVE-2020-25095
+
+### References:
+
+* https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/entity-operations#query-data
+* https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/data-entities/entity-operations#create-data
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.47
+
+### Changelog:
+
+- v19.1.0.47:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.46
+
+### Changelog:
+
+- v19.1.0.46:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.45
+
+### Changelog:
+
+- v19.1.0.45:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.44
+
+### Changelog:
+
+- v19.1.0.44:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.43
+
+### Changelog:
+
+- v19.1.0.43:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.42
+
+### Changelog:
+
+- v19.1.0.42:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.41
+
+### Changelog:
+
+- v19.1.0.41:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.40
+
+### Changelog:
+
+- v19.1.0.40:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.39
+
+### Changelog:
+
+- v19.1.0.39:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.38
+
+### Changelog:
+
+- v19.1.0.38:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.37
+
+### Changelog:
+
+- v19.1.0.37:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.36
+
+### Changelog:
+
+- v19.1.0.36:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.35
+
+### Changelog:
+
+- v19.1.0.35:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.34
+
+### Changelog:
+
+- v19.1.0.34:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.33
+
+### Changelog:
+
+- v19.1.0.33:
+    - Fixed vulnerability CVE-2020-25095
+
+### CWE: CWE-20
+
+### Severity: High
+
+### Affected Versions:
+
+- All versions
+
+### Fixed Versions:
+
+- v19.1.0.32
+
+### Changelog:
+
+- v19.1

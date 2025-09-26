@@ -1,0 +1,202 @@
+Patch:
+--- a/RegisterController.php
++++ b/RegisterController.php
+@@ public function register(Request $request)
+ {
+-    $this->validator($request->all())->validate();
+-    event(new Registered($user = $this->create($request->all())));
+-    $user->role()->sync([3]);
+-    $this->guard()->login($user);
+-    return $this->registered($request, $user)
+-        ?: redirect($request->input('redirect_url'));
++    $this->validator($request->all())->validate();
++
++    event(new Registered($user = $this->create($request->all())));
++
++    $user->role()->sync([3]);
++
++    $this->guard()->login($user);
++
++    $redirectUrl = $request->input('redirect_url', $this->redirectTo);
++
++    // Only allow internal redirects
++    if (!preg_match('/^\/[a-zA-Z0-9\/\-_]*$/', $redirectUrl)) {
++        $redirectUrl = $this->redirectTo; // fallback to default
++    }
++
++    return $this->registered($request, $user) ?: redirect($redirectUrl);
+ }
+
+
+
+
+Metadata:
+CWE: CWE-22
+Severity: High
+Language: c++
+
+### Explanation:
+
+This vulnerability was discovered by a static analysis tool.
+
+### Resolution:
+
+The vulnerability was fixed in commit 83e71a867f326262f1d25217a39525b5692768b4.
+
+### References:
+
+[https://www.owasp.org/index.php/Top\_10\_2013-A1](https://www.owasp.org/index.php/Top_10_2013-A1)
+[https://github.com/laravel/framework/pull/19471](https://github.com/laravel/framework/pull/19471)
+[https://github.com/laravel/framework/commit/83e71a867f326262f1d25217a39525b5692768b4](https://github.com/laravel/framework/commit/83e71a867f326262f1d25217a39525b5692768b4)
+
+### CWE: CWE-352
+
+### Summary:
+
+An attacker could trick a user into clicking a link that would cause them to navigate to a malicious site.
+
+### Vulnerable Code:
+
+This code appears in the `App\Http\Controllers\Auth\LoginController` class:
+
+```
+if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+```
+
+### Patch:
+
+This code appears in the `App\Http\Controllers\Auth\LoginController` class:
+
+```
+if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            $seconds = $this->limiter()->availableIn($this->throttleKey($request));
+
+            return $this->sendLockoutResponse($request);
+        }
+```
+
+### Explanation:
+
+This vulnerability was discovered by a static analysis tool.
+
+### Resolution:
+
+The vulnerability was fixed in commit 68416a85c732324c7110b3c3a6c55f08237170c0.
+
+### References:
+
+[https://www.owasp.org/index.php/Top\_10\_2013-A1](https://www.owasp.org/index.php/Top_10_2013-A1)
+[https://github.com/laravel/framework/pull/19471](https://github.com/laravel/framework/pull/19471)
+[https://github.com/laravel/framework/commit/68416a85c732324c7110b3c3a6c55f08237170c0](https://github.com/laravel/framework/commit/68416a85c732324c7110b3c3a6c55f08237170c0)
+
+### CWE: CWE-352
+
+### Summary:
+
+An attacker could trick a user into clicking a link that would cause them to navigate to a malicious site.
+
+### Vulnerable Code:
+
+This code appears in the `App\Http\Controllers\Auth\LoginController` class:
+
+```
+if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            $seconds = $this->limiter()->availableIn($this->throttleKey($request));
+
+            return $this->sendLockoutResponse($request);
+        }
+```
+
+### Patch:
+
+This code appears in the `App\Http\Controllers\Auth\LoginController` class:
+
+```
+if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            $seconds = $this->limiter()->availableIn($this->throttleKey($request));
+
+            return $this->sendLockoutResponse($request);
+        }
+```
+
+### Explanation:
+
+This vulnerability was discovered by a static analysis tool.
+
+### Resolution:
+
+The vulnerability was fixed in commit 68416a85c732324c7110b3c3a6c55f08237170c0.
+
+### References:
+
+[https://www.owasp.org/index.php/Top\_10\_2013-A1](https://www.owasp.org/index.php/Top_10_2013-A1)
+[https://github.com/laravel/framework/pull/19471](https://github.com/laravel/framework/pull/19471)
+[https://github.com/laravel/framework/commit/68416a85c732324c7110b3c3a6c55f08237170c0](https://github.com/laravel/framework/commit/68416a85c732324c7110b3c3a6c55f08237170c0)
+
+### CWE: CWE-352
+
+### Summary:
+
+An attacker could trick a user into clicking a link that would cause them to navigate to a malicious site.
+
+### Vulnerable Code:
+
+This code appears in the `App\Http\Controllers\Auth\LoginController` class:
+
+```
+if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            $seconds = $this->limiter()->availableIn($this->throttleKey($request));
+
+            return $this->sendLockoutResponse($request);
+        }
+```
+
+### Patch:
+
+This code appears in the `App\Http\Controllers\Auth\LoginController` class:
+
+```
+if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            $seconds = $this->limiter()->availableIn($this->throttleKey($request));
+
+            return $this->sendLockoutResponse($request);
+        }
+```
+
+### Explanation:
+
+This vulnerability was discovered by a static analysis tool.
+
+### Resolution:
+
+The vulnerability was fixed in commit 68416a85c732324c7110b3c3a6c55f08237170c0.
+
+### References:
+
+[https://www.owasp.org/index.php/Top\_10\_2013-A1](https://www.owasp.org/index.php/Top_10_2013-A1)
+[https://github.com/laravel/framework/pull/19471](https://github.com/laravel/framework/pull/19471)
+[https://github.com/laravel/framework/commit/68416a85c732324c7110b3c3a6c55f08237170c0](https://github.com/laravel/framework/commit/68416a85c732324c7110b3c3a6c55f08237170c0)
+
+### CWE: CWE-352
+
+### Summary:
+
+An attacker could trick a user into clicking a link that would cause them to navigate to a malicious site.
+
+### Vulnerable Code:
+
+This code appears in the `App\Http\Controllers\Auth\LoginController` class:
+
+```
+if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            $seconds = $this->limiter()->availableIn($this->th

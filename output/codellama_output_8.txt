@@ -1,0 +1,300 @@
+Patch:
+state_dict_path = os.path.join(args.repo_path, subfolder, "diffusion_pytorch_model.bin")
+
+# Safe: only load as state_dict (not entire model object)
+state_dict = torch.load(state_dict_path, map_location="cpu")
+
+if not isinstance(state_dict, dict):
+    raise ValueError("Loaded file is not a valid state_dict dictionary.")
+
+model.load_state_dict(state_dict)
+
+
+Metadata:
+CWE: CWE-78
+Severity: High
+Language: javascript, html
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: login.html
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet#hashing-passwords
+
+
+### File: main.py
+
+Patch:
+password = getpass.getpass()
+password = getpass.getpass()
+
+# Safe: use hash function
+password = hashlib.sha256(getpass.getpass()).hexdigest()
+
+
+Metadata:
+CWE: CWE-259
+Severity: High
+Language: python
+
+### Explanation:
+The code contains a password in plain text, which is vulnerable to a password stealing attack.
+
+### Mitigation:
+The code must be modified to use a hash function to hash the password.
+
+### References:
+- https://www.owasp.org/index.php

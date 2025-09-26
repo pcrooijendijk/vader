@@ -1,0 +1,26 @@
+Patch:
+--- a/scraper.py
++++ b/scraper.py
+@@
+-# Amazon URL
+-URL = 'http://www.amazon.com/dp/'
++# Amazon URL (secure HTTPS)
++URL = 'https://www.amazon.com/dp/'
+
+
+Metadata:
+CWE: CWE-522
+Severity: Very Low
+Language: javascript
+
+### Explanation:
+
+Amazon is transitioning their site to HTTPS only. If you use the HTTPS version of their site, your script will not work.
+
+### Solution:
+
+Update the URL to use HTTPS.
+
+### References:
+
+- https://www.amazon.com/gp/help/customer/display.html?nodeId=201640200

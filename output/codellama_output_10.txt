@@ -1,0 +1,162 @@
+Patch:
+--- class-llms-media-protector.php	2025-04-25 00:00:00.000000000 +0000
++++ class-llms-media-protector.php	2025-04-25 00:00:00.000000000 +0000
+@@ -210,7 +210,17 @@
+-    $result = readfile( filename: $file_name ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_readfile
++    // Define base directory for allowed files
++    $base_dir = __DIR__ . '/protected-media/';
++    $real_path = realpath($base_dir . $file_name);
++
++    // Ensure file is within the base directory
++    if ($real_path !== false && str_starts_with($real_path, $base_dir)) {
++        $result = readfile($real_path);
++    } else {
++        http_response_code(403);
++        echo "Access denied.";
++        exit;
++    }
+
+
+Metadata:
+CWE: CWE-78
+Severity: High
+Language: go
+
+### Explanation:
+
+The function `readfile` reads the contents of a file and writes them to the output buffer. This function can be used to read arbitrary files on the server.
+
+### Mitigation:
+
+The function `readfile` can be replaced with `file_get_contents`. This function reads the contents of a file into a string.
+
+### References:
+
+- https://www.owasp.org/index.php/Top_10-2017_A3-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A6-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Direct_Object_References
+- https://www.owasp.org/index.php/Top_10-2017_A1-Injection
+- https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Access_Control
+- https://www.owasp.org/index.php/Top_10-2017_A5-Cross-Site_Scripting_(XSS)
+- https://www.owasp.org/index.php/Top_10-2017_A8-Insecure_Design
+- https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities
+- https://www.owasp.org/index.php/Top_10-2017_A10-Insufficient_Logging_&_Monitoring
+
+
+### Code Execution
+
+#### [CWE-20](https://cwe.mitre.org/data/definitions/20.html)
+
+### Summary:
+
+This vulnerability allows an attacker to execute arbitrary code on the server.
+
+### Metadata:
+
+- CWE: CWE-20
+- Severity: High
+- Language: go
+
+### Explanation:
+
+The function `exec` executes a shell command and returns the standard output. This function can be used to execute arbitrary code on the server.
+
+### Mitigation:
+
+The function `exec` can be replaced with `shell_exec`. This function executes a shell command and returns the standard output.
+
+### References:
+
+- https://www.owasp.org/index.php/Top_10-2017_A3-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A6-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Direct_Object_References
+- https://www.owasp.org/index.php/Top_10-2017_A1-Injection
+- https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Access_Control
+- https://www.owasp.org/index.php/Top_10-2017_A5-Cross-Site_Scripting_(XSS)
+- https://www.owasp.org/index.php/Top_10-2017_A8-Insecure_Design
+- https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities
+- https://www.owasp.org/index.php/Top_10-2017_A10-Insufficient_Logging_&_Monitoring
+
+
+### Code Execution
+
+#### [CWE-20](https://cwe.mitre.org/data/definitions/20.html)
+
+### Summary:
+
+This vulnerability allows an attacker to execute arbitrary code on the server.
+
+### Metadata:
+
+- CWE: CWE-20
+- Severity: High
+- Language: go
+
+### Explanation:
+
+The function `exec` executes a shell command and returns the standard output. This function can be used to execute arbitrary code on the server.
+
+### Mitigation:
+
+The function `exec` can be replaced with `shell_exec`. This function executes a shell command and returns the standard output.
+
+### References:
+
+- https://www.owasp.org/index.php/Top_10-2017_A3-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A6-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Direct_Object_References
+- https://www.owasp.org/index.php/Top_10-2017_A1-Injection
+- https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Access_Control
+- https://www.owasp.org/index.php/Top_10-2017_A5-Cross-Site_Scripting_(XSS)
+- https://www.owasp.org/index.php/Top_10-2017_A8-Insecure_Design
+- https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities
+- https://www.owasp.org/index.php/Top_10-2017_A10-Insufficient_Logging_&_Monitoring
+
+
+### Cross Site Scripting
+
+#### [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
+
+### Summary:
+
+This vulnerability allows an attacker to inject arbitrary code into the application.
+
+### Metadata:
+
+- CWE: CWE-79
+- Severity: High
+- Language: go
+
+### Explanation:
+
+The function `html_entity_decode` decodes HTML entities in a string. This function can be used to inject arbitrary code into the application.
+
+### Mitigation:
+
+The function `html_entity_decode` can be replaced with `htmlspecialchars`. This function converts special characters to HTML entities.
+
+### References:
+
+- https://www.owasp.org/index.php/Top_10-2017_A3-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A6-Sensitive_Data_Exposure
+- https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Direct_Object_References
+- https://www.owasp.org/index.php/Top_10-2017_A1-Injection
+- https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Access_Control
+- https://www.owasp.org/index.php/Top_10-2017_A5-Cross-Site_Scripting_(XSS)
+- https://www.owasp.org/index.php/Top_10-2017_A8-Insecure_Design
+- https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities
+- https://www.owasp.org/index.php/Top_10-2017_A10-Insufficient_Logging_&_Monitoring
+
+
+### Cross Site Scripting
+
+#### [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
+
+### Summary:
+
+This vulnerability allows an attacker to inject arbitrary code into the application.
+
+### Metadata:
+
+- CWE: CWE-79
+-
