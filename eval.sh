@@ -20,4 +20,6 @@ cd /vol/csedu-nobackup/project/prooijendijk
 cd /vol/csedu-nobackup/project/prooijendijk/vader
 
 # Commands to run your program go here, e.g.:
-python evaluation_fine.py
+for i in $(seq 0 28); do
+    python evaluation_fine.py -id "$i"
+done

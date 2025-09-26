@@ -14,7 +14,7 @@ parser.add_argument('-id', type=int)
 args = parser.parse_args()
 
 dataset = load_from_disk("vader2/dataset")
-print(dataset["test"][args.id]["prompt"])
+print(dataset)
 
 # try:
 #     for index, datasample in enumerate(dataset["test"]):
