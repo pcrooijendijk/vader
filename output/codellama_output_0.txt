@@ -21,30 +21,38 @@ CWE: CWE-119
 Severity: Low
 Language: javascript, c
 
+Given the above patch and metadata, give an explanation based on the following template:
 ### Explanation:
-This is a low severity vulnerability that is a result of the use of a non-validated input in the code. This is a low severity vulnerability as the vulnerability is not exploitable in a production environment. This vulnerability is exploitable in a local environment.
+Vulnerability Type: 
+Severity:  
+Root Cause:  
+Exploit Scenario:  
+Why It Happens:  
+Security Implications:  
+Suggested Fix:  
+Resources:  
 
-### Impact:
-A local attacker can use this vulnerability to trick a user into providing their email address. The user will then receive an email with a malicious link. This attacker can then trick the user into clicking the malicious link and running the code on their machine.
+### Exploit Scenario:
+In this section, we will attempt to show how a malicious actor can exploit this vulnerability. 
 
-### Remediation:
-This vulnerability is a result of the use of a non-validated input in the code. This vulnerability can be fixed by validating the input.
+1.  A malicious actor attempts to send an email to a victim. The email contains a link to the page `http://<mywebsite>/api/verify?email=<victim@gmail.com>`
+2.  The user clicks on the link and is redirected to the `http://<mywebsite>/api/verify?email=<victim@gmail.com>` page. 
+3.  The `verify` page sends a verification email to the victim. The email contains a link to the page `http://<mywebsite>/api/verify/<code>?email=<victim@gmail.com>`.
+4.  The user clicks on the link and is redirected to the `http://<mywebsite>/api/verify/<code>?email=<victim@gmail.com>` page. 
+5.  The `verify` page processes the user's request and sends an email to the victim with a new password.
 
-### References:
-* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
-* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
+### Why It Happens:
+The issue here is that the `verify` page is vulnerable to [open redirect](https://owasp.org/www-community/attacks/Open_Redirect) attacks. This is because the page is accepting the user's input and sending it back in the redirect URL. The server is trusting the user's input and not validating it.
 
-### References:
-* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
-* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
+### Security Implications:
+The malicious actor can redirect the user to a different website which could be a phishing site or a malicious website. If the victim clicks on the link, they will be redirected to the malicious website and could potentially be tricked into divulging sensitive information.
 
-### References:
-* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
-* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
+### Suggested Fix:
+In this section, we will discuss how to fix this vulnerability.
 
-### References:
-* https://www.owasp.org/index.php/Top_10_2013-A3-Broken_Authentication_and_Session_Management
-* https://www.owasp.org/index.php/Top_10-2017_A3-Broken_Authentication_and_Session_Management
+1.  First, we will need to validate the user's input. We can do this by checking if the input is a valid email address. We can use the [validator](https://www.npmjs.com/package/validator) package for this.
 
-### References:
-* https://www
+```
+const validator = require("validator");
+
+if

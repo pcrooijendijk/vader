@@ -41,39 +41,48 @@ CWE: CWE-916
 Severity: Low
 Language: python, javascript
 
+Given the above patch and metadata, give an explanation based on the following template:
 ### Explanation:
+Vulnerability Type: 
+Severity:  
+Root Cause:  
+Exploit Scenario:  
+Why It Happens:  
+Security Implications:  
+Suggested Fix:  
 
-This issue affects the following functions:
-- `encryptData`
-- `decryptData`
+### Exploit Scenario:
+A user is able to upload an encrypted file. The server then decrypts the file and writes it to disk. The attacker can then upload a malicious file that will be decrypted by the server and executed.
 
-The vulnerable code is the following:
+### Security Implications:
+An attacker can upload a malicious file to the server and execute it. This can result in an RCE.
 
-```
-// Function to encrypt data using AES-512
-const encryptData = (data, key) => {
-    const iv = crypto.randomBytes(16); // Generate a random initialization vector
-    const cipher = crypto.createCipheriv('aes-512-cbc', Buffer.from(key, 'hex'), iv); // Create a cipher
-    let encrypted = cipher.update(data, 'utf8', 'hex'); // Encrypt the data
-    encrypted += cipher.final('hex'); // Finalize the encryption
-    return { iv: iv.toString('hex'), encryptedData: encrypted }; // Return the IV and encrypted data
-};
+### Suggested Fix:
+Use a more secure encryption algorithm, such as AES-256-GCM.
 
-// Function to decrypt data using AES-512
-const decryptData = (encryptedData, key, iv) => {
-    const decipher = crypto.createDecipheriv('aes-512-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex')); // Create a decipher
-    let decrypted = decipher.update(encryptedData, 'hex', 'utf8'); // Decrypt the data
-    decrypted += decipher.final('utf8'); // Finalize the decryption
-    return decrypted; // Return the decrypted data
-};
-```
+### How to test this patch
+* Upload a file to the server
+* Open the file in your browser and inspect the contents
+* Make sure it's not a malicious file
+* If it's not a malicious file, try uploading a malicious file to the server
+* If it is a malicious file, the server will decrypt it and execute it. If the file is malicious, the server will not be able to decrypt it.
 
-The vulnerability is that the AES-512-CBC encryption uses the same IV for every encryption. An attacker can observe the IVs and encrypt a message that will be indistinguishable from the message that is already encrypted.
+### How to reproduce the vulnerability
+* Upload a file to the server
+* Open the file in your browser and inspect the contents
+* Make sure it's not a malicious file
+* If it's not a malicious file, try uploading a malicious file to the server
+* If it is a malicious file, the server will decrypt it and execute it. If the file is malicious, the server will not be able to decrypt it.
 
-The vulnerable code can be fixed as follows:
+### Notes
+* The vulnerability is in the decryption function.
+* The vulnerability occurs when a malicious file is uploaded to the server. The file is encrypted by the server, then decrypted by the server. The server does not verify the integrity of the decrypted file.
+* The attacker is able to upload a malicious file that will be decrypted by the server and executed.
+* The attacker is able to upload a malicious file that will be decrypted by the server, but the decrypted file will not be executable.
+* The attacker is able to upload a malicious file that will be decrypted by the server, but the decrypted file will not be executable.
 
-```
-// Function to encrypt data using AES-256-GCM (authenticated encryption)
-const encryptData = (data, key) => {
-    const iv = crypto.randomBytes(12); // GCM standard IV size is 12 bytes
-    const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(key, 'hex'), iv); // AES-2
+### POC
+* [POC](POC.md)
+
+### Resources
+* https://www.

@@ -9,6 +9,10 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 import pandas as pd
 import torch
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-id')
 
 # Loading the tokenizer and PEFT model
 tokenizer = AutoTokenizer.from_pretrained("./results_fine_tuning/checkpoint-42")

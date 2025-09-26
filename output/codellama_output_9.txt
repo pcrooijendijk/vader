@@ -125,32 +125,65 @@ CWE: CWE-502
 Severity: High
 Language: python
 
+Given the above patch and metadata, give an explanation based on the following template:
 ### Explanation:
-The vulnerability is due to the fact that the function sanitizeId() is not being used anywhere in the code. This means that any input can be given to the function, and it will always return true.
+Vulnerability Type: 
+Severity:  
+Root Cause:  
+Exploit Scenario:  
+Why It Happens:  
+Security Implications:  
+Suggested Fix:  
+Exploit Proof:  
 
-### Remediation:
-To fix this issue, we need to use the sanitizeId() function. The function is currently used in the following line of code:
+Patch:
+--- a/src/pages/Movies.js
++++ b/src/pages/Movies.js
+@@
+ import React, { useEffect, useState } from "react";
+ import Layout from "../components/Layout";
+ import Loader from "../components/Loader";
+ import { useNavigate } from "react-router-dom";
+ import { collection, getDocs } from "firebase/firestore";
+ import { db } from "../fireBase/config";
 
-```
-navigate(`/movies/${item.id}`);
-```
+ const Movies = () => {
+   const navigate = useNavigate();
+   const [postLists, setPostList] = useState();
 
-This means that the user can pass any value to the navigate() function, and the value will be used as the id of the movie. This means that the user can navigate to any movie page, which is a security risk.
+   const postCollectionref = collection(db, "movies");
+   const getMovieData = async () => {
+     try {
+       const data = await getDocs(postCollectionref);
+       const sanitizedData = data.docs.map((doc) => ({
+         ...doc.data(),
+         id: doc.id,
+       }));
+       setPostList(sanitizedData);
+     } catch (err) {
+       console.error("Failed to fetch movie data:", err);
+     }
+   };
 
-The fix is to add the following line of code to the navigate() function:
+   useEffect(() => {
+     getMovieData();
+   }, []);
 
-```
-if (sanitizeId(item.id)) {
-  navigate(`/movies/${item.id}`);
-}
-```
-
-This will prevent the user from passing any value to the navigate() function. Only valid movie ids will be accepted, and the user will not be able to navigate to any movie page.
-
-### References:
-https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Design
-https://www.owasp.org/index.php/Top_10-2017_A4-Insecure_Design#Example_1_Insecure_Direct_Object_References
-https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control
-https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control#Example_1_Insufficient_Access_Controls_for_Resource_Handling
-https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control#Example_1_Insufficient_Access_Controls_for_Resource_Handling
-https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control#Example_2_
+   return (
+     <div>
+       <Layout title={"Movies"}>
+         <div className="details-container">
+           <div className="left-details">
+             <h1 className="internship-heading">All Movies Data</h1>
+             <div className="card-container">
+               {postLists && postLists.length > 0 ? (
+                 postLists.map((item) => (
+                   <div className="card" key={item.id}>
+                     <img src={item.url} alt="" />
+                     <h4 className="card-info">{item.title}</h4>
+                     <button
+                       className="l-n-btn"
+                       style={{ backgroundColor: "" }}
+                       onClick={() => navigate(`/movies/${item.id}`)}
+                     >
+                      

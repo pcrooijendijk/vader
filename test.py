@@ -4,66 +4,38 @@ import os
 import re
 import json
 from datasets import Dataset  
+from datasets import load_from_disk
 import pandas as pd
-import torch
+import argparse
 
-vader_dataset = "vader2/vader_languages.csv"
-df = pd.read_csv(vader_dataset)
+parser = argparse.ArgumentParser()
+parser.add_argument('-id', type=int)
 
-# Removing the following columns to only get the ID, CWE, severity score, explanation and programming language.
-df = df.drop(columns=['Unnamed: 0', 'Repository', 'Submitted At', 'Approved At', 'num_files', 'num_languages'])
+args = parser.parse_args()
 
-# Only get the samples which have a suggested fix in them
-df = df[df['Description'].str.contains("Suggested Fix", case=False)]
+dataset = load_from_disk("vader2/dataset")
+print(dataset["test"][args.id]["prompt"])
 
-# Path to the patches/diffs
-diff_path = "./cases/"
+# try:
+#     for index, datasample in enumerate(dataset["test"]):
+#         inputs = tokenizer(datasample["prompt"], return_tensors="pt").to(model.device)
 
-# Add diff column initialized as empty
-df["diff"] = None
+#         outputs = model.generate(
+#             **inputs,
+#             max_new_tokens=500,
+#             temperature=0.7,
+#             top_p=0.9,
+#             do_sample=True
+#         )
+#         prompt_dict[index] = {
+#             "prompt": datasample["prompt"],
+#             "expected_answer": datasample["label"],
+#             "generated_answer": tokenizer.decode(outputs[0], skip_special_tokens=True),
+#         }
+# except torch.OutOfMemoryError as e: 
+#     print(e)
+#     pass
 
-# Loop through .patch files and add to df
-for root, _, files in os.walk(diff_path):
-    for filename in files:
-        if filename.endswith(".patch"):
-            filepath = os.path.join(root, filename)
-
-            # Extract the first number from filename (case ID or index)
-            match = re.search(r'\d+', filename)
-            if not match:
-                continue
-            case_id = int(match.group())
-
-            # Find matching row (assuming your ID column contains these numbers)
-            row_match = df[df["Case"] == case_id]
-            if not row_match.empty:
-                try:
-                    with open(filepath, "r", encoding="utf-8") as f:
-                        diff = f.read()
-                    df.loc[df["Case"] == case_id, "diff"] = diff
-                except Exception as e:
-                    print(f"Error reading {filepath}: {e}")
-
-# Build dataset with prompt + explanation
-def build_prompt(row):
-    return f"""Patch:
-{row['diff']}
-
-Metadata:
-CWE: {row['CWE']}
-Severity: {row['Severity']}
-Language: {row['language']}
-
-### Explanation:
-"""
-
-dataset = Dataset.from_pandas(df)
-
-dataset = dataset.map(lambda row: {
-    "prompt": build_prompt(row),
-    "label": row["Description"]
-})
-
-# Removing this redundant column __index_level_0__
-dataset = dataset.remove_columns("__index_level_0__")
-print(dataset['label'][0])
+# # Getting the results in a JSON file
+# with open("results.json", "w") as f: 
+#     json.dump(prompt_dict, f, indent=4)

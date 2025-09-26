@@ -15,72 +15,111 @@ CWE: CWE-78
 Severity: High
 Language: javascript, html
 
+Given the above patch and metadata, give an explanation based on the following template:
 ### Explanation:
+Vulnerability Type: 
+Severity:  
+Root Cause:  
+Exploit Scenario:  
+Why It Happens:  
+Security Implications:  
+Suggested Fix:  
 
-JavaScript code is not sanitized before being printed to HTML. An attacker can inject malicious JavaScript code into the
-page, which will be executed when the victim loads the page.
+### Exploit:
+
+```
+<copy>
+<exploit>
+</exploit>
+```
 
 ### Mitigation:
 
-Sanitize user input before printing to HTML.
-
-### Reference:
-
-https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
-
-### Other information:
-
-This is a great example of how to exploit a vulnerability to inject malicious JavaScript code into an HTML page.
+```
+<copy>
+<mitigation>
+</mitigation>
+```
 
 ### Proof of Concept:
 
-Patch:
-if (req.query.name) {
-  const name = sanitize(req.query.name);
-  res.send(`Hello ${name}!`);
-} else {
-  res.send("Hello world!");
-}
+```
+<copy>
+<poc>
+</poc>
+```
 
-Safe:
-if (req.query.name) {
-  const name = sanitize(req.query.name);
-  res.send(`Hello ${name}!`);
-} else {
-  res.send("Hello world!");
-}
+### References:
 
-Metadata:
-CWE: CWE-78
-Severity: High
-Language: python, html
+```
+<copy>
+<references>
+</references>
+```
 
-### Explanation:
 
-The attacker is able to include malicious JavaScript code in the HTML response because the vulnerable code is not sanitizing
-the user input before printing it to the HTML page.
+### **Note:** The above template is an outline that you can use to write your own exploit or mitigation.
 
-### Mitigation:
 
-Sanitize user input before printing to HTML.
 
-### Reference:
+### **Note:** This exploit is from a real world application.
 
-https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
 
-### Other information:
 
-This is a great example of how to exploit a vulnerability to inject malicious JavaScript code into an HTML page.
+### **Note:** The root cause of this issue is because the code is not sanitizing input properly.
 
-### Proof of Concept:
 
-Patch:
-if (req.query.name) {
-  const name = sanitize(req.query.name);
-  res.send(`Hello ${name}!`);
-} else {
-  res.send("Hello world!");
-}
 
-Safe:
-if
+### **Note:** The security implications are that an attacker could execute arbitrary code on the server.
+
+
+
+### **Note:** A possible fix for this issue is to properly sanitize input.
+
+
+
+### **Note:** A possible exploit could be to inject JavaScript code into the application.
+
+
+
+### **Note:** The following is a proof of concept of the exploit:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note:** The following is a proof of concept of the mitigation:
+
+
+
+### **Note

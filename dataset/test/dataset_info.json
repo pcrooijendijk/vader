@@ -1,0 +1,44 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "Case": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "ID": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "CWE": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "Severity": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "Description": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "language": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "diff": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "prompt": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "label": {
+      "dtype": "string",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}

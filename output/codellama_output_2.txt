@@ -35,63 +35,507 @@ CWE: CWE-22
 Severity: High
 Language: c++
 
+Given the above patch and metadata, give an explanation based on the following template:
 ### Explanation:
+Vulnerability Type: 
+Severity:  
+Root Cause:  
+Exploit Scenario:  
+Why It Happens:  
+Security Implications:  
+Suggested Fix:  
+How to Test:  
 
-This code allows any user to register with any role. If the user is logged in, they will be assigned a role of 3. This means that any user will have access to the same permissions as the role with ID 3.
 
-### Code:
 
-```c++
-public function register(Request $request)
-{
-    $this->validator($request->all())->validate();
-    event(new Registered($user = $this->create($request->all())));
-    $user->role()->sync([3]);
-    $this->guard()->login($user);
-    return $this->registered($request, $user)
-        ?: redirect($request->input('redirect_url'));
-}
-```
 
-### Fix:
 
-```c++
-public function register(Request $request)
-{
-    $this->validator($request->all())->validate();
-    event(new Registered($user = $this->create($request->all())));
-    $user->role()->sync([$request->role]);
-    $this->guard()->login($user);
-    return $this->registered($request, $user)
-        ?: redirect($request->input('redirect_url'));
-}
-```
 
-### References:
 
-https://laravel.com/docs/5.7/authentication
 
-### Related issues:
 
-- https://github.com/laravel/framework/issues/26591
-- https://github.com/laravel/framework/issues/26591#issuecomment-447900500
 
-### Other Information:
 
-- This code is from the Laravel framework (https://github.com/laravel/framework/blob/5.7/src/Illuminate/Foundation/Auth/RegistersUsers.php#L38).
 
-### Files Affected:
 
-- RegisterController.php
 
-### Test Case:
 
-- Regression test:
-  - Registering as an admin
-  - Creating a new user
-  - Checking that the new user has the admin role
-  - Logging out
-  - Registering as a new user
-  - Checking that the new user has the default role
 
-### Discla
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
